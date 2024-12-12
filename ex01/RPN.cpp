@@ -6,7 +6,7 @@
 /*   By: tomecker <tomecker@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 14:41:10 by tecker            #+#    #+#             */
-/*   Updated: 2024/12/12 20:43:56 by tomecker         ###   ########.fr       */
+/*   Updated: 2024/12/12 20:55:07 by tomecker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int is_operator(char c)
     return (c == '+' || c == '-' || c == '/' || c == '*');
 }
 
-int do_operation(int a, int b, char c)
+double do_operation(double a, double b, char c)
 {
     switch (c)
     {
@@ -55,12 +55,11 @@ void RPN::calculate(void)
             {
                 if (_stack.size() < 2)
                     throw std::invalid_argument("missing numbers!");
-                int a = _stack.top();
+                double a = _stack.top();
                 _stack.pop();
-                int b = _stack.top();
+                double b = _stack.top();
                 _stack.pop();
-                int res = do_operation(a, b, _str[i]);
-                _stack.push(res);
+                _stack.push(do_operation(a, b, _str[i]));
             }
             else
             {
@@ -88,6 +87,7 @@ RPN::~RPN()
 {
 }
 RPN::RPN(const RPN &src)
+    : _stack()
 {
     _str = src._str;
     _stack = src._stack;

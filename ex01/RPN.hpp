@@ -6,7 +6,7 @@
 /*   By: tomecker <tomecker@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 14:41:14 by tecker            #+#    #+#             */
-/*   Updated: 2024/12/12 20:15:30 by tomecker         ###   ########.fr       */
+/*   Updated: 2024/12/12 20:54:22 by tomecker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 #include <string.h>
 #include <iostream>
-#include <iomanip>
 #include <stdexcept>
 #include <stack>
 
@@ -25,7 +24,7 @@ class RPN
 {
     private:
         std::string _str;
-        std::stack<int> _stack;
+        std::stack<double> _stack;
     public:
         RPN();
         RPN(std::string str);
