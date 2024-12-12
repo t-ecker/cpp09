@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   RPN.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tecker <tecker@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tomecker <tomecker@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 14:41:10 by tecker            #+#    #+#             */
-/*   Updated: 2024/12/12 14:50:00 by tecker           ###   ########.fr       */
+/*   Updated: 2024/12/12 20:43:56 by tomecker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "RPN.hpp"
 
-bool is_operator(char c)
+int is_operator(char c)
 {
     return (c == '+' || c == '-' || c == '/' || c == '*');
 }
@@ -21,21 +21,18 @@ int do_operation(int a, int b, char c)
 {
     switch (c)
     {
-    case '+':
-        return (b + a);
-        break;
-    case '-':
-        return (b - a);
-        break;
-    case '/':
-        return (b / a);
-        break;
-    case '*':
-        return (b * a);
-        break;
-    default:
-        return (-1);
-        break;
+        case '+':
+            return (b + a);
+        case '-':
+            return (b - a);
+        case '/':
+            if (a == 0)
+                throw std::invalid_argument("division by 0!");
+            return (b / a);
+        case '*':
+            return (b * a);
+        default:
+            return (-1);
     }
 }
 
@@ -43,47 +40,43 @@ void RPN::calculate(void)
 {
     if (_str.empty())
         throw std::out_of_range("input was empty!");
-    std::cout << _str[1] << std::endl;
     for (int i = 0; _str[i]; i++)
     {
-        if (i % 2 == 1)
-        {
-            if (_str[i] != ' ')
-                throw std::invalid_argument("invalid input!");   
-        }
-        else
+        // if (i % 2 != 0)
+        // {
+        //     if (_str[i] != ' ')
+        //         throw std::invalid_argument("invalid input!");   
+        // }
+        // else
+            
+        if (_str[i] != ' ')
         {
             if (is_operator(_str[i]))
             {
-                if (_stack.size() != 2)
-                    throw std::invalid_argument("invalid operator!");
+                if (_stack.size() < 2)
+                    throw std::invalid_argument("missing numbers!");
                 int a = _stack.top();
                 _stack.pop();
                 int b = _stack.top();
                 _stack.pop();
                 int res = do_operation(a, b, _str[i]);
-                if (res == -1)
-                {
-                    std::cerr << "ERROR" << std::endl;
-                    throw std::exception();   
-                }
                 _stack.push(res);
             }
             else
             {
                 if (!std::isdigit(_str[i]))
-                    throw std::invalid_argument("missing number!");    
-                _stack.push(_str[i]);
+                    throw std::invalid_argument("ERROR");
+                _stack.push(static_cast<int>(_str[i] - '0'));
             }
         }
     }
-    std::cout << _stack.top();
-    
-    
+    if (_stack.size() != 1)
+        throw std::invalid_argument("ERROR");
+    std::cout << _stack.top() << std::endl;
 }
 
 RPN::RPN()
-    :   _str(nullptr), _stack()
+    :   _stack()
 {
 }
 RPN::RPN(std::string str)
