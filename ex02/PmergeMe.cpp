@@ -6,18 +6,40 @@
 /*   By: tomecker <tomecker@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 14:41:10 by tecker            #+#    #+#             */
-/*   Updated: 2024/12/17 22:50:04 by tomecker         ###   ########.fr       */
+/*   Updated: 2024/12/17 23:59:32 by tomecker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PmergeMe.hpp"
 
-void merge(std::vector<int> vec, int start, int end, int middle)
+void merge(std::vector<int> &vec, int start, int end, int middle)
 {
+    int n1 = middle - start + 1;
+    int n2 = end - middle;
+
+    std::vector<int> left(vec.begin() + start, vec.begin() + start + n1);
+    std::vector<int> right(vec.begin() + middle + 1, vec.begin() + middle + 1 + n2);
+
+    int i = 0;
+    int j = 0;
+    int k = start;
+
+    while (i < n1 && j < n2)
+    {
+        if (left[i] <= right[j])
+            vec[k++] = left[i++];
+        else
+            vec[k++] = right[j++];
+    }
+
+    while (i < n1)
+        vec[k++] = left[i++];
+    while (j < n2)
+        vec[k++] = right[j++];
     
 }
 
-void merge_sort(std::vector<int> vec, int start, int end)
+void merge_sort(std::vector<int> &vec, int start, int end)
 {
     if (start < end)
     {
@@ -46,9 +68,13 @@ void PmergeMe::sort_vec()
     }
     
     merge_sort(main, 0, main.size() - 1);
-    insert_sort(main, pend);
+    _input = main;
+    display();
+    _input = pend;
+    display();
+    // insert_sort(main, pend);
     
-    return (main);
+    // return (main);
 }
 
 void PmergeMe::display()
