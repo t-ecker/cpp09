@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   PmergeMe.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tomecker <tomecker@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tecker <tecker@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 14:41:10 by tecker            #+#    #+#             */
-/*   Updated: 2024/12/18 01:04:17 by tomecker         ###   ########.fr       */
+/*   Updated: 2024/12/18 16:38:49 by tecker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,21 +50,46 @@ void merge_sort(std::vector<std::pair<int, int>> &vec, int start, int end)
     }
 }
 
-void insertion_sort(std::vector<int> &main, std::vector<int> pend)
+void binary_insert(std::vector<int> &main, const std::pair<int, std::vector<int>::iterator>)
 {
-    main.insert(main.begin(), *pend.begin());
-    // int size = pend.size() - 1;
-    // while (size > 0)
-    // {
-        
-    // }
+    
+}
+
+void insertion_sort(std::vector<int> &main, const std::vector<std::pair<int, std::vector<int>::iterator>> pend)
+{
+    std::vector<int> jacob;
+    jacob.push_back(1);
+    jacob.push_back(3);
+    while (jacob.back() < pend.size())
+        jacob.push_back(2 * (jacob[jacob.size() - 2]) + jacob.back());
+
+    int j = 1;
+    while (j < jacob.size() && jacob[j] <= pend.size())
+    {
+        binary_insert(main, pend[jacob[j] - 1]);
+        if (j != 0)
+        {
+            for (int i = jacob[j] - 1; i > jacob[j - 1]; i--)
+                binary_insert(main, pend[i - 1]);
+        }
+        j++;
+    }
+    if (jacob[j - 1] != pend.back().first)
+    {
+        int index = jacob[j - 1] + 1;
+        while (pend[index - 1] <= pend.back())
+        {
+            binary_insert(main, pend[index - 1]);
+            index++;
+        }
+    }
 }
 
 void PmergeMe::sort_vec()
 {   
     std::vector<std::pair<int, int>> pairs;
     std::vector<int> main;
-    std::vector<int> pend;
+    std::vector<std::pair<int, std::vector<int>::iterator>> pend;
     int rest = -1;
     
     if (_input.size() % 2 != 0)
@@ -81,19 +106,14 @@ void PmergeMe::sort_vec()
     
     for (std::pair<int, int> &pair : pairs)
     {
-        pend.push_back(pair.first);
         main.push_back(pair.second);
+        pend.push_back(std::make_pair(pair.first, main.end() - 1));
     }
     if (rest != -1)
-        pend.push_back(rest);
+        pend.push_back(std::make_pair(rest, main.end() - 1));
 
     insertion_sort(main, pend);
-    
-    _input = main;
-    display();
-    _input = pend;
-    display();
-    
+
     // return (main);
 }
 

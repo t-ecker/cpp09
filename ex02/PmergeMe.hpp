@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   PmergeMe.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tomecker <tomecker@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tecker <tecker@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 14:41:14 by tecker            #+#    #+#             */
-/*   Updated: 2024/12/18 00:52:54 by tomecker         ###   ########.fr       */
+/*   Updated: 2024/12/18 14:52:09 by tecker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 #include <string.h>
 #include <iostream>
 #include <stdexcept>
-#include <stack>
+#include <vector>
+#include <deque>
 
 class PmergeMe
 {
