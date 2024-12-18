@@ -6,7 +6,7 @@
 /*   By: tomecker <tomecker@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 14:41:14 by tecker            #+#    #+#             */
-/*   Updated: 2024/12/17 21:05:42 by tomecker         ###   ########.fr       */
+/*   Updated: 2024/12/18 00:52:54 by tomecker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ class PmergeMe
 {
     private:
         std::vector<int> _input;
-        size_t _n;
     public:
         PmergeMe();
         PmergeMe(char **argv);
