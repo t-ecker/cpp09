@@ -6,7 +6,7 @@
 /*   By: tomecker <tomecker@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 14:41:18 by tecker            #+#    #+#             */
-/*   Updated: 2024/12/19 01:35:13 by tomecker         ###   ########.fr       */
+/*   Updated: 2024/12/19 02:12:18 by tomecker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ bool check_args(int argc, char **argv)
     }
     catch(const std::exception& e)
     {
-        std::cerr << "Error! " << "reason: " << e.what() << std::endl;
+        std::cerr << "Error! reason: " << e.what() << std::endl;
         return (false);
     }
     return (true);
@@ -54,9 +54,9 @@ int main(int argc, char **argv)
     try
     {
         PmergeMe sort(argv);
+        Display("Before: ", sort.getInput());
         std::vector<int> vec = sort.sort_vec();
-        std::cout << "result: ";
-        display(vec);
+        Display("After: ", vec);        
     }
     catch(const std::exception& e)
     {

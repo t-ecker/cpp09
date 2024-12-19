@@ -6,7 +6,7 @@
 /*   By: tomecker <tomecker@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 14:41:14 by tecker            #+#    #+#             */
-/*   Updated: 2024/12/19 01:29:30 by tomecker         ###   ########.fr       */
+/*   Updated: 2024/12/19 02:12:25 by tomecker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,20 +30,11 @@ class PmergeMe
         PmergeMe(const PmergeMe &src);
         PmergeMe &operator=(const PmergeMe &src);
         std::vector<int> sort_vec(void);
-        void sort_deq(void);
+        std::deque<int> sort_deq(void);
+        std::vector<int> getInput() const;
 };
 
-template <typename T>
-void display(T container)
-{
-    typename T::iterator it = container.begin();
-    while (it != container.end() - 1)
-    {
-        std::cout << *it << " ";
-        it++;
-    }
-    std::cout << container.back() << std::endl;
-}
+void Display(const std::string& message, std::vector<int> container);
 
 template<typename T>
 void debugDisplay(const std::string& message, T container);

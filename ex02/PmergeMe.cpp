@@ -6,7 +6,7 @@
 /*   By: tomecker <tomecker@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 14:41:10 by tecker            #+#    #+#             */
-/*   Updated: 2024/12/19 01:46:25 by tomecker         ###   ########.fr       */
+/*   Updated: 2024/12/19 02:14:00 by tomecker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,20 @@ void debugDisplay(const std::string& message, T container)
     #ifdef DEBUG
     std::cout << message;
 
-    // Check if the container holds pairs (for containers like std::map or std::vector<std::pair<int, int>>)
-    if constexpr (std::is_same<typename T::value_type, std::pair<int, int>>::value) {
-        // If it holds pairs, print as pairs
-        for (const auto& pair : container) {
+    if constexpr (std::is_same<typename T::value_type, std::pair<int, int>>::value)
+    {
+        for (const auto& pair : container)
             std::cout << "(" << pair.first << ", " << pair.second << ") ";
-        }
-    } else {
-        // Otherwise, print the individual elements
+    }
+    else
+    {
         typename T::iterator it = container.begin();
-        while (it != container.end() - 1) {
+        while (it != container.end() - 1)
+        {
             std::cout << *it << " ";
             ++it;
         }
-        std::cout << *it;  // Print the last element
+        std::cout << *it;
     }
     std::cout << "\n" << std::endl;
     #endif
@@ -45,6 +45,19 @@ void debugDisplay(const std::string& message)
     std::cout << message << std::endl;
     #endif
     (void)message;
+}
+
+void Display(const std::string& message, std::vector<int> container)
+{
+    std::cout << message;
+    std::vector<int>::iterator it = container.begin();
+    while (it != container.end() - 1)
+    {
+        std::cout << *it << " ";
+        ++it;
+    }
+    std::cout << *it;
+    std::cout << std::endl;
 }
 
 void merge(std::vector<std::pair<int, int>> &vec, int start, int end, int middle)
@@ -202,4 +215,9 @@ PmergeMe &PmergeMe::operator=(const PmergeMe &src)
     if (this != &src)
         _input = src._input;
     return (*this);
+}
+
+std::vector<int> PmergeMe::getInput() const
+{
+    return (_input);
 }
