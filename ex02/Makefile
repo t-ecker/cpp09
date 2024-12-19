@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tomecker <tomecker@student.42.fr>          +#+  +:+       +#+         #
+#    By: tecker <tecker@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/26 12:19:12 by tecker            #+#    #+#              #
-#    Updated: 2024/12/19 01:47:08 by tomecker         ###   ########.fr        #
+#    Updated: 2024/12/19 14:46:00 by tecker           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,9 @@ CFLAGS			=	-Wall -Werror -Wextra -std=c++17
 DEBUGFLAGS      =   -DDEBUG
 
 SRC_FILES		=	main.cpp \
-					PmergeMe.cpp
+					PmergeMe.cpp \
+					PmergeMe_sort_vec.cpp \
+					PmergeMe_sort_deq.cpp \
 
 OBJ_DIR			=	./obj
 
