@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   PmergeMe.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tecker <tecker@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tomecker <tomecker@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 14:41:14 by tecker            #+#    #+#             */
-/*   Updated: 2024/12/19 14:45:50 by tecker           ###   ########.fr       */
+/*   Updated: 2024/12/19 17:43:22 by tomecker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PMERGEME_HPP
 #define PMERGEME_HPP
 
-#include <string.h>
+#include <string>
 #include <iostream>
 #include <stdexcept>
 #include <vector>
@@ -30,8 +30,32 @@ class PmergeMe
         std::deque<int> sort_deq(std::deque<int> input);
 };
 
-template<typename T>
-void debugDisplay(const std::string& message, T container);
-void debugDisplay(const std::string& message);
+void debugDisplay_text(const std::string& message);
 
+template<typename T>
+void debugDisplay_container(const std::string& message, T container)
+{
+    #ifdef DEBUG
+    std::cout << message;
+
+    if constexpr (std::is_same<typename T::value_type, std::pair<int, int>>::value)
+    {
+        for (const auto& pair : container)
+            std::cout << "(" << pair.first << ", " << pair.second << ") ";
+    }
+    else
+    {
+        typename T::iterator it = container.begin();
+        while (it != container.end() - 1)
+        {
+            std::cout << *it << " ";
+            ++it;
+        }
+        std::cout << *it;
+    }
+    std::cout << "\n" << std::endl;
+    #endif
+    (void)message;
+    (void)container;
+}
 #endif

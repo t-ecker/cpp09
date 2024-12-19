@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   PmergeMe_sort_deq.cpp                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tecker <tecker@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tomecker <tomecker@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 14:16:23 by tecker            #+#    #+#             */
-/*   Updated: 2024/12/19 14:52:40 by tecker           ###   ########.fr       */
+/*   Updated: 2024/12/19 17:23:17 by tomecker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ std::deque<int> get_order(const std::deque<std::pair<int, int>>& pend)
         jacob.push_back(3);
     while (jacob.back() < (int)pend.size())
         jacob.push_back(2 * jacob[jacob.size() - 2] + jacob.back());
-    // debugDisplay("jacob numbers: ", jacob);
 
     size_t i = 0;
     while (i < jacob.size() && jacob[i] <= (int)pend.size())
@@ -99,20 +98,13 @@ std::deque<int> get_order(const std::deque<std::pair<int, int>>& pend)
 
 void insertion_sort(std::deque<int> &main, const std::deque<std::pair<int, int>> pend, int rest)
 {
-    // debugDisplay("main: ", main);
-    // debugDisplay("pend: ", pend);
-    
     std::deque<int> insertion_order = get_order(pend);
-    // debugDisplay("insertion order (indexes): ", insertion_order);    
     
     for (int index : insertion_order)
         binary_insert(main, pend[index].first, std::find(main.begin(), main.end(), pend[index].second));
 
     if (rest != -1)
-    {
         binary_insert(main, rest, main.end());
-        // debugDisplay("+ added odd number at the end\n");
-    }
 }
 
 std::deque<int> PmergeMe::sort_deq(std::deque<int> input)
@@ -132,9 +124,7 @@ std::deque<int> PmergeMe::sort_deq(std::deque<int> input)
         pairs.push_back(std::make_pair(input[i], input[i + 1]));
     }
 
-    // debugDisplay("pairs before merging: ", pairs);
     merge_sort(pairs, 0, pairs.size() - 1);
-    // debugDisplay("pairs after merging: ", pairs);
     
     for (std::pair<int, int> pair : pairs)
         main.push_back(pair.second);

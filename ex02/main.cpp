@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tecker <tecker@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tomecker <tomecker@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 14:41:18 by tecker            #+#    #+#             */
-/*   Updated: 2024/12/19 15:14:28 by tecker           ###   ########.fr       */
+/*   Updated: 2024/12/19 17:42:33 by tomecker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,14 @@ void Display(const std::string& message, T container)
     std::cout << std::endl;
 }
 
+void debugDisplay_text(const std::string& message)
+{
+    #ifdef DEBUG
+    std::cout << message << std::endl;
+    #endif
+    (void)message;
+}
+
 std::vector<int> check_args(int argc, char **argv)
 {
     std::vector<int> vec;
@@ -43,16 +51,16 @@ std::vector<int> check_args(int argc, char **argv)
             throw std::invalid_argument("too large number found!");
         vec.push_back(std::atoi(argv[i]));
     }
-    std::unordered_set<int> set;
-    for (int num : vec)
-    {
-        if (set.find(num) != set.end())
-        {
-            std::cout << "found num: " << num << " at " << *(set.find(num)) << std::endl;
-            throw std::invalid_argument("duplicate values found!");
-        }
-        set.insert(num);
-    }
+    // std::unordered_set<int> set;
+    // for (int num : vec)
+    // {
+    //     if (set.find(num) != set.end())
+    //     {
+    //         std::cout << "found num: " << num << " at " << *(set.find(num)) << std::endl;
+    //         throw std::invalid_argument("duplicate values found!");
+    //     }
+    //     set.insert(num);
+    // }
     return (vec);
 }
 

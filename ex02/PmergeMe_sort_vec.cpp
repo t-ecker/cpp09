@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   PmergeMe_sort_vec.cpp                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tecker <tecker@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tomecker <tomecker@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 14:16:23 by tecker            #+#    #+#             */
-/*   Updated: 2024/12/19 14:42:14 by tecker           ###   ########.fr       */
+/*   Updated: 2024/12/19 17:52:17 by tomecker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ std::vector<int> get_order(const std::vector<std::pair<int, int>>& pend)
         jacob.push_back(3);
     while (jacob.back() < (int)pend.size())
         jacob.push_back(2 * jacob[jacob.size() - 2] + jacob.back());
-    // debugDisplay("jacob numbers: ", jacob);
+    // debugDisplay_container("jacob numbers: ", jacob);
 
     size_t i = 0;
     while (i < jacob.size() && jacob[i] <= (int)pend.size())
@@ -99,11 +99,11 @@ std::vector<int> get_order(const std::vector<std::pair<int, int>>& pend)
 
 void insertion_sort(std::vector<int> &main, const std::vector<std::pair<int, int>> pend, int rest)
 {
-    // debugDisplay("main: ", main);
-    // debugDisplay("pend: ", pend);
+    debugDisplay_container("main: ", main);
+    debugDisplay_container("pend: ", pend);
     
     std::vector<int> insertion_order = get_order(pend);
-    // debugDisplay("insertion order (indexes): ", insertion_order);    
+    debugDisplay_container("insertion order (indexes): ", insertion_order);    
     
     for (int index : insertion_order)
         binary_insert(main, pend[index].first, std::find(main.begin(), main.end(), pend[index].second));
@@ -111,7 +111,7 @@ void insertion_sort(std::vector<int> &main, const std::vector<std::pair<int, int
     if (rest != -1)
     {
         binary_insert(main, rest, main.end());
-        // debugDisplay("+ added odd number at the end\n");
+        debugDisplay_text("inserted odd number last\n");
     }
 }
 
@@ -132,9 +132,9 @@ std::vector<int> PmergeMe::sort_vec(std::vector<int> input)
         pairs.push_back(std::make_pair(input[i], input[i + 1]));
     }
 
-    // debugDisplay("pairs before merging: ", pairs);
+    debugDisplay_container("\npairs: ", pairs);
     merge_sort(pairs, 0, pairs.size() - 1);
-    // debugDisplay("pairs after merging: ", pairs);
+    debugDisplay_container("pairs after merging: ", pairs);
     
     pend.reserve(pairs.size());
     main.reserve(input.size());
