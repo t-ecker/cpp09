@@ -6,19 +6,19 @@
 /*   By: tomecker <tomecker@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 14:16:23 by tecker            #+#    #+#             */
-/*   Updated: 2024/12/19 17:23:17 by tomecker         ###   ########.fr       */
+/*   Updated: 2024/12/19 23:37:57 by tomecker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PmergeMe.hpp"
 
-void merge(std::deque<std::pair<int, int>> &vec, int start, int end, int middle)
+void merge(std::deque<std::pair<int, int>> &pairs, int start, int end, int middle)
 {
     int n1 = middle - start + 1;
     int n2 = end - middle;
 
-    std::deque<std::pair<int, int>> left(vec.begin() + start, vec.begin() + start + n1);
-    std::deque<std::pair<int, int>> right(vec.begin() + middle + 1, vec.begin() + middle + 1 + n2);
+    std::deque<std::pair<int, int>> left(pairs.begin() + start, pairs.begin() + start + n1);
+    std::deque<std::pair<int, int>> right(pairs.begin() + middle + 1, pairs.begin() + middle + 1 + n2);
 
     int i = 0;
     int j = 0;
@@ -27,26 +27,26 @@ void merge(std::deque<std::pair<int, int>> &vec, int start, int end, int middle)
     while (i < n1 && j < n2)
     {
         if (left[i].second <= right[j].second)
-            vec[k++] = left[i++];
+            pairs[k++] = left[i++];
         else
-            vec[k++] = right[j++];
+            pairs[k++] = right[j++];
     }
 
     while (i < n1)
-        vec[k++] = left[i++];
+        pairs[k++] = left[i++];
     while (j < n2)
-        vec[k++] = right[j++];
+        pairs[k++] = right[j++];
     
 }
 
-void merge_sort(std::deque<std::pair<int, int>> &vec, int start, int end)
+void merge_sort(std::deque<std::pair<int, int>> &pairs, int start, int end)
 {
     if (start < end)
     {
         int middle = start + (end - start) / 2;
-        merge_sort(vec, start, middle);   
-        merge_sort(vec, middle + 1, end);
-        merge(vec, start, end, middle);   
+        merge_sort(pairs, start, middle);   
+        merge_sort(pairs, middle + 1, end);
+        merge(pairs, start, end, middle);   
     }
 }
 
@@ -111,7 +111,6 @@ std::deque<int> PmergeMe::sort_deq(std::deque<int> input)
 {   
     std::deque<std::pair<int, int>> pairs;
     std::deque<int> main;
-    std::deque<std::pair<int, int>> pend;
     int rest = -1;
     
     if (input.size() % 2 != 0)
@@ -128,9 +127,8 @@ std::deque<int> PmergeMe::sort_deq(std::deque<int> input)
     
     for (std::pair<int, int> pair : pairs)
         main.push_back(pair.second);
-    pend = pairs;
 
-    insertion_sort(main, pend, rest);
+    insertion_sort(main, pairs, rest);
     
     return (main);
 }
