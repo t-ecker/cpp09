@@ -3,14 +3,49 @@
 /*                                                        :::      ::::::::   */
 /*   PmergeMe.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tecker <tecker@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tomecker <tomecker@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 14:41:10 by tecker            #+#    #+#             */
-/*   Updated: 2024/12/18 16:38:49 by tecker           ###   ########.fr       */
+/*   Updated: 2024/12/19 01:46:25 by tomecker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PmergeMe.hpp"
+
+template<typename T>
+void debugDisplay(const std::string& message, T container)
+{
+    #ifdef DEBUG
+    std::cout << message;
+
+    // Check if the container holds pairs (for containers like std::map or std::vector<std::pair<int, int>>)
+    if constexpr (std::is_same<typename T::value_type, std::pair<int, int>>::value) {
+        // If it holds pairs, print as pairs
+        for (const auto& pair : container) {
+            std::cout << "(" << pair.first << ", " << pair.second << ") ";
+        }
+    } else {
+        // Otherwise, print the individual elements
+        typename T::iterator it = container.begin();
+        while (it != container.end() - 1) {
+            std::cout << *it << " ";
+            ++it;
+        }
+        std::cout << *it;  // Print the last element
+    }
+    std::cout << "\n" << std::endl;
+    #endif
+    (void)message;
+    (void)container;
+}
+
+void debugDisplay(const std::string& message)
+{
+    #ifdef DEBUG
+    std::cout << message << std::endl;
+    #endif
+    (void)message;
+}
 
 void merge(std::vector<std::pair<int, int>> &vec, int start, int end, int middle)
 {
@@ -50,46 +85,76 @@ void merge_sort(std::vector<std::pair<int, int>> &vec, int start, int end)
     }
 }
 
-void binary_insert(std::vector<int> &main, const std::pair<int, std::vector<int>::iterator>)
+void binary_insert(std::vector<int> &main, const int val, std::vector<int>::iterator R)
 {
+    std::vector<int>::iterator L = main.begin();
     
+    while (L < R)
+    {
+        std::vector<int>::iterator mid = L + (R - L) / 2;
+        if (val <= *mid)
+            R = mid;
+        else
+            L = mid + 1;
+    }
+    main.insert(L, val);
 }
 
-void insertion_sort(std::vector<int> &main, const std::vector<std::pair<int, std::vector<int>::iterator>> pend)
+std::vector<int> get_order(const std::vector<std::pair<int, int>>& pend)
 {
+    std::vector<int> order;
     std::vector<int> jacob;
-    jacob.push_back(1);
-    jacob.push_back(3);
-    while (jacob.back() < pend.size())
-        jacob.push_back(2 * (jacob[jacob.size() - 2]) + jacob.back());
 
-    int j = 1;
-    while (j < jacob.size() && jacob[j] <= pend.size())
+    jacob.push_back(1);
+    if (pend.size() > 1)
+        jacob.push_back(3);
+    while (jacob.back() < (int)pend.size())
+        jacob.push_back(2 * jacob[jacob.size() - 2] + jacob.back());
+    debugDisplay("jacob numbers: ", jacob);
+
+    size_t i = 0;
+    while (i < jacob.size() && jacob[i] <= (int)pend.size())
     {
-        binary_insert(main, pend[jacob[j] - 1]);
-        if (j != 0)
+        order.push_back(jacob[i] - 1);
+
+        if (i > 0)
         {
-            for (int i = jacob[j] - 1; i > jacob[j - 1]; i--)
-                binary_insert(main, pend[i - 1]);
+            for (int j = jacob[i] - 2; j >= jacob[i - 1]; j--)
+                order.push_back(j);
         }
-        j++;
+        i++;
     }
-    if (jacob[j - 1] != pend.back().first)
+
+    for (size_t j = jacob[i - 1]; j < pend.size(); j++)
+        order.push_back(j);
+
+    return (order);
+}
+
+
+void insertion_sort(std::vector<int> &main, const std::vector<std::pair<int, int>> pend, int rest)
+{
+    debugDisplay("main: ", main);
+    debugDisplay("pend: ", pend);
+    
+    std::vector<int> insertion_order = get_order(pend);
+    debugDisplay("insertion order (indexes): ", insertion_order);    
+    
+    for (int index : insertion_order)
+        binary_insert(main, pend[index].first, std::find(main.begin(), main.end(), pend[index].second));
+
+    if (rest != -1)
     {
-        int index = jacob[j - 1] + 1;
-        while (pend[index - 1] <= pend.back())
-        {
-            binary_insert(main, pend[index - 1]);
-            index++;
-        }
+        binary_insert(main, rest, main.end());
+        debugDisplay("+ added odd number at the end\n");
     }
 }
 
-void PmergeMe::sort_vec()
+std::vector<int> PmergeMe::sort_vec()
 {   
     std::vector<std::pair<int, int>> pairs;
     std::vector<int> main;
-    std::vector<std::pair<int, std::vector<int>::iterator>> pend;
+    std::vector<std::pair<int, int>> pend;
     int rest = -1;
     
     if (_input.size() % 2 != 0)
@@ -102,32 +167,20 @@ void PmergeMe::sort_vec()
         pairs.push_back(std::make_pair(_input[i], _input[i + 1]));
     }
 
+    debugDisplay("pairs before merging: ", pairs);
     merge_sort(pairs, 0, pairs.size() - 1);
+    debugDisplay("pairs after merging: ", pairs);
     
-    for (std::pair<int, int> &pair : pairs)
-    {
+    pend.reserve(pairs.size());
+    main.reserve(_input.size());
+    for (std::pair<int, int> pair : pairs)
         main.push_back(pair.second);
-        pend.push_back(std::make_pair(pair.first, main.end() - 1));
-    }
-    if (rest != -1)
-        pend.push_back(std::make_pair(rest, main.end() - 1));
+    pend = pairs;
 
-    insertion_sort(main, pend);
-
-    // return (main);
+    insertion_sort(main, pend, rest);
+    
+    return (main);
 }
-
-void PmergeMe::display()
-{
-    std::vector<int>::iterator it = _input.begin();
-    std::cout << "values:";
-    while (it != _input.end())
-    {
-        std::cout << " " << *it;
-        it++;
-    }
-    std::cout << std::endl;
-} 
 
 PmergeMe::PmergeMe()
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tecker <tecker@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tomecker <tomecker@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 14:41:18 by tecker            #+#    #+#             */
-/*   Updated: 2024/12/18 14:53:27 by tecker           ###   ########.fr       */
+/*   Updated: 2024/12/19 01:35:13 by tomecker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,16 +44,19 @@ bool check_args(int argc, char **argv)
     return (true);
 }
 
+
+
 int main(int argc, char **argv)
 {
-    if (!check_args(argc, argv))
-        return (1);
+    // if (!check_args(argc, argv))
+    //     return (1);
     (void) argc;
     try
     {
         PmergeMe sort(argv);
-        sort.sort_vec();
-        // sort.display();
+        std::vector<int> vec = sort.sort_vec();
+        std::cout << "result: ";
+        display(vec);
     }
     catch(const std::exception& e)
     {
