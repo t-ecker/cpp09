@@ -6,13 +6,12 @@
 /*   By: tomecker <tomecker@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 14:41:18 by tecker            #+#    #+#             */
-/*   Updated: 2024/12/19 17:42:33 by tomecker         ###   ########.fr       */
+/*   Updated: 2024/12/19 19:24:24 by tomecker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PmergeMe.hpp"
 #include <chrono>
-#include <unordered_set>
 
 template<typename T>
 void Display(const std::string& message, T container)
@@ -51,16 +50,6 @@ std::vector<int> check_args(int argc, char **argv)
             throw std::invalid_argument("too large number found!");
         vec.push_back(std::atoi(argv[i]));
     }
-    // std::unordered_set<int> set;
-    // for (int num : vec)
-    // {
-    //     if (set.find(num) != set.end())
-    //     {
-    //         std::cout << "found num: " << num << " at " << *(set.find(num)) << std::endl;
-    //         throw std::invalid_argument("duplicate values found!");
-    //     }
-    //     set.insert(num);
-    // }
     return (vec);
 }
 
@@ -75,7 +64,7 @@ int main(int argc, char **argv)
         vec = check_args(argc, argv);
         std::copy(vec.begin(), vec.end(), std::back_inserter(deq));
         
-        Display("Before: ", vec);
+        Display("Before:            ", vec);
         
         std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
         vec = sort.sort_vec(vec);
@@ -85,15 +74,15 @@ int main(int argc, char **argv)
         deq = sort.sort_deq(deq);
         end = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double, std::micro> duration_deq = end - start;
-        Display("After (vector): ", vec);
-        Display("After (deque): ", deq);
+        std::cout << std::endl;
+        Display("After (vector):    ", vec);
+        Display("After (deque) :    ", deq);
+        std::cout << std::endl;
         std::cout << "Time to process a range of " << vec.size() << " elements with std::vector : " << std::fixed << duration_vec.count() << " µs" << std::endl;
-        std::cout << "Time to process a range of " << vec.size() << " elements with std::deque : " << std::fixed << duration_deq.count() << " µs" << std::endl;
+        std::cout << "Time to process a range of " << vec.size() << " elements with std::deque  : " << std::fixed << duration_deq.count() << " µs" << std::endl;
     }
     catch(const std::exception& e)
     {
         std::cerr << "[Error]: " << e.what() << std::endl;
     }
 }
-
-//  ./PmergeMe `jot -r 3000 1 100000 | tr '\n' ' '`

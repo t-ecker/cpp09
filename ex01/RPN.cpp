@@ -6,7 +6,7 @@
 /*   By: tomecker <tomecker@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 14:41:10 by tecker            #+#    #+#             */
-/*   Updated: 2024/12/12 20:55:07 by tomecker         ###   ########.fr       */
+/*   Updated: 2024/12/19 19:14:53 by tomecker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,12 @@ void RPN::calculate(void)
         throw std::out_of_range("input was empty!");
     for (int i = 0; _str[i]; i++)
     {
-        // if (i % 2 != 0)
-        // {
-        //     if (_str[i] != ' ')
-        //         throw std::invalid_argument("invalid input!");   
-        // }
-        // else
-            
-        if (_str[i] != ' ')
+        if (i % 2 != 0)
+        {
+            if (_str[i] != ' ')
+                throw std::invalid_argument("invalid input!");   
+        }
+        else
         {
             if (is_operator(_str[i]))
             {
@@ -71,7 +69,7 @@ void RPN::calculate(void)
     }
     if (_stack.size() != 1)
         throw std::invalid_argument("ERROR");
-    std::cout << _stack.top() << std::endl;
+    std::cout << "[" << _str << "] = " << _stack.top() << std::endl;
 }
 
 RPN::RPN()

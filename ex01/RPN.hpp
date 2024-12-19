@@ -6,14 +6,14 @@
 /*   By: tomecker <tomecker@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 14:41:14 by tecker            #+#    #+#             */
-/*   Updated: 2024/12/12 20:54:22 by tomecker         ###   ########.fr       */
+/*   Updated: 2024/12/19 19:26:09 by tomecker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RPN_HPP
 #define RPN_HPP
 
-#include <string.h>
+#include <string>
 #include <iostream>
 #include <stdexcept>
 #include <stack>

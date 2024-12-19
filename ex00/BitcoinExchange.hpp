@@ -6,18 +6,19 @@
 /*   By: tomecker <tomecker@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 14:41:14 by tecker            #+#    #+#             */
-/*   Updated: 2024/12/13 23:24:43 by tomecker         ###   ########.fr       */
+/*   Updated: 2024/12/19 18:47:10 by tomecker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BITCOINEXCHANGE_HPP
 #define BITCOINEXCHANGE_HPP
 
-#include <string.h>
+#include <string>
 #include <iostream>
 #include <iomanip>
 #include <fstream>
 #include <map>
+#include <stdexcept>
 
 class BCE
 {
