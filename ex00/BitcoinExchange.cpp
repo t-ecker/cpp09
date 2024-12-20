@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   BitcoinExchange.cpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tomecker <tomecker@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tecker <tecker@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 14:41:10 by tecker            #+#    #+#             */
-/*   Updated: 2024/12/19 19:11:09 by tomecker         ###   ########.fr       */
+/*   Updated: 2024/12/20 14:37:33 by tecker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ bool check_line(std::string date, double value)
 {
     if (value < 0)
         return (std::cerr << "[ERROR]: value is negativ! => " << value << std::endl, false);
-    if (value > INT_MAX)
+    if (value > 1000)
         return (std::cerr << "[ERROR]: value is too large => " << std::fixed << value << std::endl, false);
     if (date.size() != 10 || date[4] != '-' || date[7] != '-')
         return (std::cerr << "[ERROR]: date has wrong format! => " << date << std::endl, false);
@@ -77,18 +77,15 @@ void BCE::calculate(void)
 	if (!file.is_open())
 		throw std::invalid_argument("input file failed to open!");
         
-    std::getline(file, line);
-    std::cout << line << std::endl;
-    if (line != "date 	   | value")
-        throw std::invalid_argument("file has wrong format!\n first line must be: date 	   | value");
-        
     std::cout << std::left << std::setw(15) << "Date"
               << std::right << std::setw(10) << "Value"
-              << std::right << std::setw(15) << "Result\n"
+              << std::right << std::setw(16) << "Result\n"
               << std::string(40, '-') << std::endl;
               
     while (std::getline(file, line))
     {
+        if ((line.find("date") != std::string::npos && line.find("value") != std::string::npos) || line.empty())
+            continue;
         try
         {
             size_t found = line.find('|');
